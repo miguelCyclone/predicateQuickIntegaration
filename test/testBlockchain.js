@@ -1,6 +1,6 @@
 const hre = require('hardhat')
 const { ethers } = hre
-
+const predicate = require("@predicate/core")
 const constants = require("../Utils/constants.js");
 
 // ABI
@@ -20,21 +20,24 @@ const SIGNER = new ethers.Wallet(PRIV_KEY, PROVIDER);
 // Declare contract
 const COUNTER_CONTRACT = new ethers.Contract(CONTRACT_ADDRESS, COUNTER_ABI, SIGNER);
 
-// Declare PRedicate struct message (Obtained from the ABI)
+// Predicate API compliant response
 
 /*
 
 status: 200
 response: {
   is_compliant: true,
-  task_id: '662c0495-81f2-45a9-a6a6-95b334e7f5cb',
-  expiry_block: 1759138817,
+  task_id: 'c4757c97-2738-4e5a-94f9-cd63c7abe854',
+  expiry_block: 1759193701,
   signers: [ '0xDAc74b6f9B3609E914c924eB87Adff87A30fcDf6' ],
   signature: [
-    '0x782b7fb05c46a01a15d301699968446df18fda7553dff13eb6847a2b8f892c7a7c95c3f03df9b3e5ac74e9c0876336efe4a4306e1eecd73513b0799c1a2b535c1b'
+    '0xf0099e8977dea5c7cd0e84ff1e60aab2bc64ccac8f6e014f91bdeb6c2480f2e32e5680b566eea1b421469134f5ba561f2d06712aa43521e71da986d3687e72351c'
   ]
+}
 
 */
+
+// Declare Predicate struct message (Obtained from the ABI)
 
 /*
 
@@ -47,10 +50,10 @@ struct PredicateMessage {
 
 */
 const PredicateMessage = {
-    taskId: "662c0495-81f2-45a9-a6a6-95b334e7f5cb",
-    expireByBlockNumber: BigInt(1759138817),
+    taskId: "c4757c97-2738-4e5a-94f9-cd63c7abe854",
+    expireByBlockNumber: BigInt("1759193701"),
     signerAddresses: ["0xDAc74b6f9B3609E914c924eB87Adff87A30fcDf6"],
-    signatures: ["0x782b7fb05c46a01a15d301699968446df18fda7553dff13eb6847a2b8f892c7a7c95c3f03df9b3e5ac74e9c0876336efe4a4306e1eecd73513b0799c1a2b535c1b"]
+    signatures: ["0xf0099e8977dea5c7cd0e84ff1e60aab2bc64ccac8f6e014f91bdeb6c2480f2e32e5680b566eea1b421469134f5ba561f2d06712aa43521e71da986d3687e72351c"]
 
 
 }
@@ -58,12 +61,17 @@ const PredicateMessage = {
 async function callSmartContract() {
     try {
         let tx = await COUNTER_CONTRACT.setNumberWithPredicate(
-            BigInt("0"),
+            BigInt("919191"),
             PredicateMessage,
             )
-        tx = await tx.wait()
-        console.log("OK!", tx);
+        // Print txHas
         console.log("tx HAsh", tx.hash)
+
+        // Wait for tx to get minted
+        tx = await tx.wait()
+
+        // Print result
+        console.log("OK!", tx);
     } catch (error) {
         console.log("NOK", error)
     }
