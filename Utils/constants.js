@@ -7,7 +7,7 @@ const MNEMONIC = process.env.MNEMONIC
 const PRIV_KEY = process.env.PRIV_KEY
 
 // PREDICATE URL
-const API_PREDICATE_URL = "https://api.predicate.io/v1/task";
+const API_PREDICATE_URL_TASK = "https://api.predicate.io/v1/task";
 
 // Predicate System constants
 const SEPOLIA_SERVICE_MANAGER = "0xb4486F75129B0aa74F99b1B8B7b478Cd4c17e994"
@@ -35,7 +35,7 @@ module.exports = {
     SEPOLIA_RPC,
     MNEMONIC,
     PRIV_KEY,
-    API_PREDICATE_URL,
+    API_PREDICATE_URL_TASK,
     SEPOLIA_SERVICE_MANAGER,
     BASE_SERVICE_MANAGER,
     INIT_POLICY_TEST,
